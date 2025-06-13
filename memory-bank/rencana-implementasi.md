@@ -1,99 +1,131 @@
-# Rencana Implementasi Awal: MVP Aplikasi To-Do List (CLI)
+# Rencana Implementasi: MVP Aplikasi To-Do List (Web-Based)
 
-Dokumen ini menguraikan rencana implementasi untuk *Minimum Viable Product* (MVP) dari Aplikasi To-Do List versi CLI, sebagaimana didefinisikan dalam `proposal.md` dan `dokumen-desain-produk.md`.
+Dokumen ini menguraikan rencana implementasi untuk *Minimum Viable Product* (MVP) dari Aplikasi To-Do List versi Web-Based, sebagai evolusi dari rencana CLI yang didefinisikan dalam `proposal.md` dan `dokumen-desain-produk.md`.
 
 ## Tujuan MVP
 
-Menghasilkan aplikasi CLI fungsional yang memungkinkan pengguna untuk:
-1.  Menambah tugas baru.
-2.  Melihat semua tugas yang ada.
-3.  Keluar dari aplikasi.
+Menghasilkan aplikasi web fungsional yang memungkinkan pengguna untuk:
+1.  Menambah tugas baru melalui antarmuka web.
+2.  Melihat semua tugas yang ada dalam tampilan web yang responsif.
+3.  Menandai tugas sebagai selesai.
+4.  Menghapus tugas.
+5.  Menyimpan data secara persisten.
 
-Data tugas hanya akan tersimpan dalam memori selama aplikasi berjalan.
+Data tugas akan disimpan dalam database SQLite untuk persistensi data.
 
-## Struktur Proyek Awal (Saran)
+## Struktur Proyek Web-Based (Saran)
 
-Meskipun MVP sangat sederhana, disarankan untuk memulai dengan struktur dasar yang dapat dikembangkan:
+Struktur proyek untuk aplikasi web menggunakan Flask:
 
 ```
 todo_app/
-├── main.py           # Titik masuk utama aplikasi, logika CLI
-└── core/
-    ├── __init__.py
-    └── task_manager.py # Kelas/modul untuk mengelola tugas (tambah, lihat)
+├── app.py              # Aplikasi Flask utama
+├── models.py           # Model database untuk tugas
+├── static/
+│   ├── css/
+│   │   └── style.css   # Styling untuk antarmuka web
+│   └── js/
+│       └── main.js     # JavaScript untuk interaktivitas
+├── templates/
+│   ├── base.html       # Template dasar
+│   └── index.html      # Halaman utama aplikasi
+└── database.db         # Database SQLite (akan dibuat otomatis)
 memory-bank/
 ├── proposal.md
 ├── dokumen-desain-produk.md
 ├── tumpukan-teknologi.md
 └── rencana-implementasi.md
 └── ... (file lainnya)
+requirements.txt        # Dependencies Python
 README.md
 ```
 
-Struktur ini bersifat saran dan dapat disesuaikan oleh AI Koding (Jules) berdasarkan `baby-step.md` yang lebih detail nantinya.
+Struktur ini mengikuti pola MVC (Model-View-Controller) yang umum untuk aplikasi web Flask.
 
-## Langkah-Langkah Implementasi MVP
+## Langkah-Langkah Implementasi MVP Web-Based
 
 Berikut adalah pemecahan fitur MVP menjadi langkah-langkah yang lebih kecil dan dapat dikelola. Setiap langkah harus memiliki kriteria keberhasilan yang jelas.
 
-### Langkah 1: Setup Dasar Aplikasi dan Struktur Folder
+### Langkah 1: Setup Dasar Aplikasi Flask dan Struktur Folder
 
-*   **Deskripsi:** Membuat struktur folder dasar dan file `main.py` sebagai titik masuk aplikasi.
+*   **Deskripsi:** Membuat struktur folder dasar dan aplikasi Flask minimal.
 *   **Tugas:**
     *   Buat folder `todo_app/`.
-    *   Buat file `todo_app/main.py`.
-    *   Buat folder `todo_app/core/`.
-    *   Buat file `todo_app/core/__init__.py`.
-    *   Buat file `todo_app/core/task_manager.py`.
-    *   Implementasikan loop utama aplikasi di `main.py` yang dapat menerima input pengguna dan menampilkan menu sederhana.
+    *   Buat file `todo_app/app.py` sebagai aplikasi Flask utama.
+    *   Buat folder `todo_app/templates/` untuk template HTML.
+    *   Buat folder `todo_app/static/` dengan subfolder `css/` dan `js/`.
+    *   Buat file `requirements.txt` dengan dependencies Flask dan SQLAlchemy.
+    *   Implementasikan aplikasi Flask dasar dengan route utama.
 *   **Kriteria Keberhasilan:**
-    *   Aplikasi dapat dijalankan (`python todo_app/main.py`).
-    *   Aplikasi menampilkan pesan selamat datang dan opsi menu (misalnya, "1. Tambah Tugas", "2. Lihat Tugas", "3. Keluar").
-    *   Aplikasi menunggu input pengguna.
-    *   Memilih opsi "Keluar" akan menghentikan aplikasi dengan benar.
+    *   Server Flask dapat dijalankan (`python todo_app/app.py`).
+    *   Aplikasi dapat diakses melalui browser di `http://localhost:5000`.
+    *   Halaman utama menampilkan pesan selamat datang.
+    *   Tidak ada error saat menjalankan server.
 
-### Langkah 2: Implementasi Fungsionalitas "Tambah Tugas"
+### Langkah 2: Implementasi Model Database dan Fungsionalitas Dasar
 
-*   **Deskripsi:** Mengembangkan logika untuk menambahkan tugas baru ke dalam memori.
-*   **Tugas (dalam `task_manager.py` dan dipanggil dari `main.py`):**
-    *   Buat fungsi atau metode dalam `task_manager.py` untuk menyimpan tugas (misalnya, dalam sebuah list).
-    *   Di `main.py`, saat pengguna memilih opsi "Tambah Tugas":
-        *   Minta pengguna memasukkan deskripsi tugas.
-        *   Panggil fungsi dari `task_manager.py` untuk menyimpan tugas tersebut.
-        *   Tampilkan pesan konfirmasi.
+*   **Deskripsi:** Membuat model database untuk tugas dan implementasi CRUD dasar.
+*   **Tugas:**
+    *   Buat file `todo_app/models.py` dengan model Task menggunakan SQLAlchemy.
+    *   Implementasikan database SQLite dengan tabel tasks.
+    *   Buat fungsi untuk inisialisasi database.
+    *   Implementasikan fungsi CRUD dasar (Create, Read, Update, Delete).
 *   **Kriteria Keberhasilan:**
-    *   Pengguna dapat memasukkan deskripsi tugas.
-    *   Tugas disimpan dalam struktur data internal (misalnya, list dalam `TaskManager`).
-    *   Pesan konfirmasi "Tugas '[deskripsi]' telah ditambahkan." ditampilkan.
+    *   Database SQLite terbuat otomatis saat aplikasi dijalankan.
+    *   Model Task dapat menyimpan id, deskripsi, status selesai, dan timestamp.
+    *   Fungsi CRUD dapat diuji melalui Python shell.
+    *   Tidak ada error database saat aplikasi dijalankan.
 
-### Langkah 3: Implementasi Fungsionalitas "Lihat Tugas"
+### Langkah 3: Implementasi Template HTML dan Antarmuka Dasar
 
-*   **Deskripsi:** Mengembangkan logika untuk menampilkan semua tugas yang tersimpan.
-*   **Tugas (dalam `task_manager.py` dan dipanggil dari `main.py`):**
-    *   Buat fungsi atau metode dalam `task_manager.py` untuk mengambil semua tugas yang tersimpan.
-    *   Di `main.py`, saat pengguna memilih opsi "Lihat Tugas":
-        *   Panggil fungsi dari `task_manager.py` untuk mendapatkan daftar tugas.
-        *   Tampilkan tugas-tugas tersebut dalam format yang jelas (misalnya, dengan nomor urut).
-        *   Jika tidak ada tugas, tampilkan pesan "Tidak ada tugas saat ini."
+*   **Deskripsi:** Membuat template HTML untuk menampilkan dan mengelola tugas.
+*   **Tugas:**
+    *   Buat file `todo_app/templates/base.html` sebagai template dasar.
+    *   Buat file `todo_app/templates/index.html` untuk halaman utama.
+    *   Implementasikan form untuk menambah tugas baru.
+    *   Implementasikan tampilan daftar tugas dengan opsi edit dan hapus.
+    *   Tambahkan CSS dasar untuk styling yang menarik.
 *   **Kriteria Keberhasilan:**
-    *   Semua tugas yang telah ditambahkan ditampilkan dengan benar.
-    *   Jika belum ada tugas, pesan yang sesuai akan ditampilkan.
-    *   Format tampilan jelas dan mudah dibaca.
+    *   Halaman utama menampilkan form input tugas dan daftar tugas.
+    *   Form dapat digunakan untuk menambah tugas baru.
+    *   Daftar tugas menampilkan semua tugas dengan status yang jelas.
+    *   Tampilan responsif dan user-friendly.
 
-### Langkah 4: Penanganan Input Tidak Valid
+### Langkah 4: Implementasi Fungsionalitas CRUD Lengkap
 
-*   **Deskripsi:** Memastikan aplikasi memberikan respons yang sesuai jika pengguna memasukkan opsi menu yang tidak valid.
-*   **Tugas (dalam `main.py`):**
-    *   Jika pengguna memasukkan input yang tidak sesuai dengan opsi menu yang tersedia (misalnya, bukan "1", "2", atau "3"), tampilkan pesan error.
-    *   Tampilkan kembali daftar opsi menu yang valid.
+*   **Deskripsi:** Mengimplementasikan semua operasi CRUD melalui antarmuka web.
+*   **Tugas:**
+    *   Implementasikan route Flask untuk menambah tugas (POST).
+    *   Implementasikan route untuk menandai tugas selesai/belum selesai (PUT).
+    *   Implementasikan route untuk menghapus tugas (DELETE).
+    *   Tambahkan JavaScript untuk interaksi AJAX yang smooth.
+    *   Implementasikan validasi form dan error handling.
 *   **Kriteria Keberhasilan:**
-    *   Aplikasi menampilkan pesan error yang informatif untuk input tidak valid.
-    *   Aplikasi tidak crash dan kembali menampilkan menu.
+    *   Pengguna dapat menambah tugas baru melalui form web.
+    *   Pengguna dapat menandai tugas sebagai selesai/belum selesai.
+    *   Pengguna dapat menghapus tugas.
+    *   Semua operasi berjalan tanpa refresh halaman (AJAX).
+    *   Validasi input berfungsi dengan baik.
+
+### Langkah 5: Styling dan User Experience Enhancement
+
+*   **Deskripsi:** Meningkatkan tampilan dan pengalaman pengguna aplikasi web.
+*   **Tugas:**
+    *   Implementasikan CSS framework (Bootstrap atau custom CSS) untuk tampilan modern.
+    *   Tambahkan animasi dan transisi untuk interaksi yang smooth.
+    *   Implementasikan responsive design untuk mobile dan desktop.
+    *   Tambahkan feedback visual untuk aksi pengguna (loading, success, error).
+*   **Kriteria Keberhasilan:**
+    *   Aplikasi memiliki tampilan modern dan menarik.
+    *   Aplikasi responsif di berbagai ukuran layar.
+    *   Interaksi pengguna memberikan feedback yang jelas.
+    *   User experience yang intuitif dan mudah digunakan.
 
 ## Pengujian dan Validasi MVP
 
-*   Setiap langkah di atas akan diuji secara manual selama pengembangan awal.
-*   Pengujian akhir MVP akan melibatkan menjalankan semua fungsionalitas secara berurutan untuk memastikan integrasi bekerja dengan baik.
+*   Setiap langkah di atas akan diuji secara manual dan otomatis selama pengembangan.
+*   Pengujian akan mencakup functionality testing, usability testing, dan responsive design testing.
+*   Pengujian akhir MVP akan melibatkan menjalankan semua fungsionalitas melalui browser untuk memastikan integrasi bekerja dengan baik.
 *   Kriteria keberhasilan untuk MVP secara keseluruhan (seperti yang tercantum di `dokumen-desain-produk.md`) harus terpenuhi.
 
 Dokumen ini akan menjadi dasar untuk pembuatan `baby-step.md` yang lebih detail untuk setiap langkah implementasi oleh AI Perencana (Gemini).

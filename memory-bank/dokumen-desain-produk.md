@@ -1,72 +1,115 @@
-# Dokumen Desain Produk: Aplikasi To-Do List Sederhana (CLI)
+# Dokumen Desain Produk: Aplikasi To-Do List Web-Based
 
 ## 1. Visi Produk
 
-Aplikasi To-Do List ini bertujuan untuk menyediakan alat manajemen tugas pribadi yang minimalis dan efisien, dimulai sebagai aplikasi *Command-Line Interface* (CLI). Pengembangan aplikasi ini akan mengikuti metodologi "Vibe Coding" sebagai studi kasus utama, dengan fokus pada iterasi yang jelas, dokumentasi yang kuat, dan kolaborasi manusia-AI yang efektif. Versi awal (MVP) akan menjadi fondasi untuk pengembangan fitur lebih lanjut, seperti persistensi data dan antarmuka grafis (GUI).
+Aplikasi To-Do List ini bertujuan untuk menyediakan alat manajemen tugas pribadi yang minimalis dan efisien melalui antarmuka web yang modern dan responsif. Pengembangan aplikasi ini akan mengikuti metodologi "Vibe Coding" sebagai studi kasus utama, dengan fokus pada iterasi yang jelas, dokumentasi yang kuat, dan kolaborasi manusia-AI yang efektif. Aplikasi web ini akan menyediakan pengalaman pengguna yang intuitif dengan persistensi data dan antarmuka yang dapat diakses dari berbagai perangkat.
 
 ## 2. Target Pengguna
 
 *   **Pengguna Utama (MVP):** Pengembang (individu) yang sedang mempelajari atau menerapkan metodologi Vibe Coding. Aplikasi ini berfungsi sebagai artefak dan contoh nyata dari proses tersebut.
-*   **Pengguna Sekunder (Potensial di Masa Depan):** Individu yang membutuhkan aplikasi to-do list sederhana untuk penggunaan sehari-hari di lingkungan CLI.
+*   **Pengguna Sekunder:** Individu yang membutuhkan aplikasi to-do list sederhana dan modern untuk penggunaan sehari-hari melalui browser web.
+*   **Pengguna Tersier (Potensial di Masa Depan):** Tim kecil atau keluarga yang ingin berbagi dan mengelola tugas bersama melalui aplikasi web.
 
-## 3. Fitur Utama (MVP - Fase 1)
+## 3. Fitur Utama (MVP - Web-Based)
 
-Berdasarkan `proposal.md` (Fase 1: MVP - CLI Sederhana), fitur-fitur inti untuk versi pertama adalah:
+Fitur-fitur inti untuk aplikasi web to-do list adalah:
 
 1.  **Menambah Tugas Baru:**
-    *   Pengguna dapat memasukkan teks untuk tugas baru.
-    *   Tugas akan disimpan dalam memori aplikasi selama sesi berjalan.
+    *   Pengguna dapat memasukkan teks untuk tugas baru melalui form web.
+    *   Tugas akan disimpan secara persisten dalam database SQLite.
+    *   Form input dengan validasi dan feedback real-time.
+
 2.  **Melihat Semua Tugas yang Ada:**
-    *   Pengguna dapat meminta untuk menampilkan daftar semua tugas yang telah ditambahkan.
-    *   Tugas akan ditampilkan dalam format yang jelas, misalnya dengan nomor urut.
-3.  **Keluar dari Aplikasi:**
-    *   Pengguna dapat memilih opsi untuk menghentikan aplikasi.
+    *   Pengguna dapat melihat daftar semua tugas dalam tampilan web yang responsif.
+    *   Tugas ditampilkan dengan status yang jelas (selesai/belum selesai).
+    *   Tampilan yang terorganisir dengan indikator visual yang menarik.
 
-## 4. Alur Pengguna (User Flow) - MVP CLI
+3.  **Menandai Tugas Sebagai Selesai:**
+    *   Pengguna dapat mengklik checkbox atau tombol untuk menandai tugas selesai.
+    *   Status tugas berubah secara real-time tanpa refresh halaman.
+    *   Visual feedback untuk tugas yang sudah selesai (strikethrough, warna berbeda).
 
-Interaksi pengguna dengan aplikasi CLI akan mengikuti alur dasar berikut:
+4.  **Menghapus Tugas:**
+    *   Pengguna dapat menghapus tugas yang tidak diperlukan.
+    *   Konfirmasi sebelum penghapusan untuk mencegah kesalahan.
+    *   Animasi smooth saat tugas dihapus.
 
-1.  **Mulai Aplikasi:**
-    *   Pengguna menjalankan skrip Python aplikasi.
-    *   Aplikasi menampilkan pesan selamat datang dan daftar perintah yang tersedia (misalnya, tambah, lihat, keluar).
+5.  **Persistensi Data:**
+    *   Semua tugas disimpan dalam database SQLite.
+    *   Data tetap tersimpan meskipun browser ditutup atau server direstart.
+    *   Backup otomatis dan recovery data.
 
-2.  **Siklus Interaksi Utama:**
-    *   Aplikasi menunggu input perintah dari pengguna.
-    *   **Jika perintah "tambah":**
-        *   Aplikasi meminta pengguna untuk memasukkan deskripsi tugas.
-        *   Pengguna mengetikkan tugas dan menekan Enter.
-        *   Aplikasi mengkonfirmasi bahwa tugas telah ditambahkan (misalnya, "Tugas '[deskripsi]' telah ditambahkan.").
-    *   **Jika perintah "lihat":**
-        *   Aplikasi menampilkan semua tugas yang tersimpan. Jika tidak ada tugas, aplikasi menampilkan pesan yang sesuai (misalnya, "Tidak ada tugas saat ini.").
-        *   Contoh tampilan:
-            ```
-            Daftar Tugas:
-            1. Belajar Python
-            2. Membuat aplikasi to-do list
-            ```
-    *   **Jika perintah "keluar":**
-        *   Aplikasi menampilkan pesan perpisahan (misalnya, "Terima kasih telah menggunakan aplikasi To-Do List!").
-        *   Aplikasi berhenti.
-    *   **Jika perintah tidak valid:**
-        *   Aplikasi menampilkan pesan error dan daftar perintah yang valid.
+## 4. Alur Pengguna (User Flow) - MVP Web-Based
 
-3.  **Akhir Aplikasi:**
-    *   Dicapai ketika pengguna memilih opsi "keluar".
+Interaksi pengguna dengan aplikasi web akan mengikuti alur berikut:
+
+1.  **Akses Aplikasi:**
+    *   Pengguna membuka browser dan mengakses URL aplikasi (http://localhost:5000).
+    *   Halaman utama menampilkan antarmuka to-do list dengan header, form input, dan area daftar tugas.
+
+2.  **Menambah Tugas Baru:**
+    *   Pengguna mengetikkan deskripsi tugas di form input.
+    *   Pengguna menekan tombol "Tambah" atau Enter.
+    *   Sistem memvalidasi input dan menyimpan tugas ke database.
+    *   Tugas baru muncul di daftar secara real-time tanpa refresh halaman.
+    *   Form input dikosongkan dan siap untuk tugas berikutnya.
+
+3.  **Melihat dan Mengelola Tugas:**
+    *   Semua tugas ditampilkan dalam daftar yang terorganisir.
+    *   Setiap tugas memiliki:
+        *   Checkbox untuk menandai selesai/belum selesai
+        *   Teks deskripsi tugas
+        *   Tombol hapus (ikon trash/delete)
+        *   Timestamp kapan tugas dibuat
+
+4.  **Menandai Tugas Selesai:**
+    *   Pengguna mengklik checkbox di samping tugas.
+    *   Status tugas berubah secara visual (strikethrough, warna berbeda).
+    *   Perubahan disimpan ke database secara otomatis.
+
+5.  **Menghapus Tugas:**
+    *   Pengguna mengklik tombol hapus pada tugas.
+    *   Muncul konfirmasi untuk memastikan penghapusan.
+    *   Setelah konfirmasi, tugas dihapus dari database dan hilang dari tampilan.
+
+6.  **Persistensi Data:**
+    *   Semua perubahan disimpan otomatis.
+    *   Pengguna dapat menutup browser dan membuka kembali dengan data tetap utuh.
 
 ## 5. Kriteria Keberhasilan MVP
 
-*   Semua fitur (tambah tugas, lihat tugas, keluar) berfungsi sesuai dengan deskripsi.
-*   Aplikasi berjalan tanpa error fatal pada lingkungan Python standar.
-*   Kode sumber terdokumentasi dengan baik (sesuai standar Vibe Coding jika sudah ada panduan gaya).
-*   Dokumen ini (`dokumen-desain-produk.md`) dan dokumen perencanaan lainnya (`tumpukan-teknologi.md`, `rencana-implementasi.md`) telah dibuat dan disimpan di `memory-bank`.
+*   **Fungsionalitas Lengkap:** Semua fitur CRUD (Create, Read, Update, Delete) berfungsi sesuai dengan deskripsi.
+*   **Stabilitas:** Aplikasi web berjalan tanpa error fatal dan dapat menangani multiple requests.
+*   **User Experience:** Antarmuka responsif, intuitif, dan memberikan feedback yang jelas untuk setiap aksi.
+*   **Persistensi Data:** Data tersimpan dengan aman dan dapat dipulihkan setelah restart server.
+*   **Performance:** Aplikasi merespons dengan cepat untuk operasi CRUD dasar.
+*   **Cross-Browser Compatibility:** Aplikasi berfungsi dengan baik di browser modern (Chrome, Firefox, Safari, Edge).
+*   **Mobile Responsiveness:** Tampilan dan fungsionalitas optimal di perangkat mobile.
+*   **Dokumentasi:** Kode sumber terdokumentasi dengan baik sesuai standar Vibe Coding.
+*   **Deployment Ready:** Aplikasi dapat di-deploy dengan mudah ke environment production.
 
 ## 6. Pertimbangan Masa Depan (Pasca-MVP)
 
-Sesuai `proposal.md`, fitur-fitur berikut dipertimbangkan untuk fase selanjutnya:
-*   Menandai tugas sebagai selesai.
-*   Menghapus tugas.
-*   Penyimpanan data secara persisten (misalnya, dalam file JSON).
-*   Transisi ke antarmuka grafis (GUI).
-*   Fitur lanjutan seperti prioritas, tanggal jatuh tempo, dan pengeditan tugas.
+Fitur-fitur berikut dipertimbangkan untuk pengembangan selanjutnya:
+
+**Fase 2 - Enhanced Features:**
+*   **Kategorisasi Tugas:** Menambahkan kategori atau tag untuk mengorganisir tugas.
+*   **Prioritas Tugas:** Sistem prioritas (High, Medium, Low) dengan indikator visual.
+*   **Due Date:** Tanggal jatuh tempo dengan reminder dan notifikasi.
+*   **Edit Tugas:** Kemampuan mengedit deskripsi tugas yang sudah ada.
+*   **Search & Filter:** Pencarian dan filter tugas berdasarkan status, kategori, atau tanggal.
+
+**Fase 3 - Advanced Features:**
+*   **User Authentication:** Sistem login untuk multiple users.
+*   **Collaborative Features:** Berbagi tugas antar pengguna.
+*   **API Integration:** RESTful API untuk integrasi dengan aplikasi lain.
+*   **Progressive Web App (PWA):** Offline capability dan installable app.
+*   **Dark Mode:** Theme switching untuk pengalaman pengguna yang lebih baik.
+
+**Fase 4 - Enterprise Features:**
+*   **Team Management:** Manajemen tim dan assignment tugas.
+*   **Analytics & Reporting:** Dashboard dan laporan produktivitas.
+*   **Integration:** Integrasi dengan calendar, email, dan tools produktivitas lainnya.
+*   **Advanced Database:** Migrasi ke PostgreSQL atau MongoDB untuk scalability.
 
 Dokumen ini akan diperbarui seiring dengan evolusi produk.
