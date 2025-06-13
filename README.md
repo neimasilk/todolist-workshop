@@ -28,7 +28,7 @@ Aplikasi To-Do List versi GUI ini memiliki fitur-fitur berikut:
 Untuk menjalankan aplikasi ini, pastikan Anda memiliki Python 3.x terinstal. Kemudian, jalankan perintah berikut dari direktori root proyek:
 
 ```bash
-python todo_app/main.py
+python todo_app/app.py
 ```
 
 Ini akan membuka jendela aplikasi To-Do List GUI.

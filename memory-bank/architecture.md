@@ -9,7 +9,7 @@ Aplikasi ini mengadopsi arsitektur modular sederhana yang memisahkan logika bisn
 ```mermaid
 graph TD
     A[Pengguna] --> B[Antarmuka Pengguna (GUI - Tkinter)]
-    B --> C[Logika Aplikasi (main.py)]
+    B --> C[Logika Aplikasi (app.py)]
     C --> D[Manajer Tugas (TaskManager)]
     D --> E[Penyimpanan Data (tasks.json)]
     E --> D
@@ -21,14 +21,14 @@ graph TD
 
 ### 2.1. Antarmuka Pengguna (GUI - Tkinter)
 
-*   **Lokasi:** `todo_app/main.py`
+*   **Lokasi:** `todo_app/app.py`
 *   **Deskripsi:** Bertanggung jawab untuk semua interaksi visual dengan pengguna. Ini mencakup tampilan daftar tugas, kolom input untuk tugas baru, dan tombol-tombol untuk menambah, menandai selesai, dan menghapus tugas.
 *   **Teknologi:** Tkinter (pustaka GUI standar Python).
 *   **Interaksi:** Menerima input dari pengguna (misalnya, teks tugas, klik tombol) dan menampilkan informasi yang relevan (daftar tugas yang diperbarui, status tugas).
 
-### 2.2. Logika Aplikasi (`main.py`)
+### 2.2. Logika Aplikasi (`app.py`)
 
-*   **Lokasi:** `todo_app/main.py`
+*   **Lokasi:** `todo_app/app.py`
 *   **Deskripsi:** Bertindak sebagai "controller" yang menghubungkan GUI dengan logika manajemen tugas. Ini menginisialisasi aplikasi GUI dan `TaskManager`, serta menerjemahkan aksi pengguna dari GUI menjadi panggilan metode pada `TaskManager`.
 *   **Tanggung Jawab:**
     *   Membuat dan mengelola jendela utama Tkinter.
@@ -56,10 +56,10 @@ graph TD
 
 ## 3. Alur Data
 
-1.  **Aplikasi Dimulai:** `main.py` menginisialisasi `TodoApp`, yang kemudian membuat instance `TaskManager`. `TaskManager` memuat tugas dari `tasks.json`.
-2.  **Tambah Tugas:** Pengguna memasukkan teks di GUI (`main.py`), `main.py` memanggil `add_task` di `TaskManager`. `TaskManager` menambahkan tugas ke daftar internalnya dan memanggil `save_tasks` untuk memperbarui `tasks.json`. `main.py` kemudian me-refresh tampilan GUI.
-3.  **Lihat Tugas:** `main.py` memanggil `get_all_tasks` di `TaskManager`. `TaskManager` mengembalikan daftar tugas, yang kemudian ditampilkan oleh GUI di `main.py`.
-4.  **Tandai Selesai/Hapus Tugas:** Pengguna memilih tugas di GUI (`main.py`), `main.py` mendapatkan ID tugas dan memanggil `mark_task_complete` atau `delete_task` di `TaskManager`. `TaskManager` memodifikasi daftar internalnya dan memanggil `save_tasks`. `main.py` kemudian me-refresh tampilan GUI.
-5.  **Aplikasi Ditutup:** `main.py` berhenti, dan karena `save_tasks` dipanggil setelah setiap modifikasi, data sudah tersimpan.
+1.  **Aplikasi Dimulai:** `app.py` menginisialisasi `TodoApp`, yang kemudian membuat instance `TaskManager`. `TaskManager` memuat tugas dari `tasks.json`.
+2.  **Tambah Tugas:** Pengguna memasukkan teks di GUI (`app.py`), `app.py` memanggil `add_task` di `TaskManager`. `TaskManager` menambahkan tugas ke daftar internalnya dan memanggil `save_tasks` untuk memperbarui `tasks.json`. `app.py` kemudian me-refresh tampilan GUI.
+3.  **Lihat Tugas:** `app.py` memanggil `get_all_tasks` di `TaskManager`. `TaskManager` mengembalikan daftar tugas, yang kemudian ditampilkan oleh GUI di `app.py`.
+4.  **Tandai Selesai/Hapus Tugas:** Pengguna memilih tugas di GUI (`app.py`), `app.py` mendapatkan ID tugas dan memanggil `mark_task_complete` atau `delete_task` di `TaskManager`. `TaskManager` memodifikasi daftar internalnya dan memanggil `save_tasks`. `app.py` kemudian me-refresh tampilan GUI.
+5.  **Aplikasi Ditutup:** `app.py` berhenti, dan karena `save_tasks` dipanggil setelah setiap modifikasi, data sudah tersimpan.
 
 Arsitektur ini mempromosikan pemisahan kekhawatiran (separation of concerns), membuat kode lebih mudah dipelihara, diuji, dan diperluas.

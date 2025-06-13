@@ -17,7 +17,7 @@ Struktur proyek yang digunakan adalah sebagai berikut:
 
 ```
 todo_app/
-├── main.py           # Titik masuk utama aplikasi, logika GUI Tkinter
+├── app.py            # Titik masuk utama aplikasi, logika GUI Tkinter
 └── core/
     ├── __init__.py
     └── task_manager.py # Kelas/modul untuk mengelola tugas (tambah, lihat, tandai selesai, hapus, muat, simpan)
@@ -59,10 +59,10 @@ Berikut adalah pemecahan fitur menjadi langkah-langkah yang lebih kecil dan dapa
     *   `add_task` membuat tugas dengan ID dan status yang benar.
     *   `mark_task_complete` dan `delete_task` berfungsi dengan benar dan memperbarui file JSON.
 
-### Langkah 3: Mengembangkan Antarmuka GUI dengan Tkinter di `main.py`
+### Langkah 3: Mengembangkan Antarmuka GUI dengan Tkinter di `app.py`
 
 *   **Deskripsi:** Membuat antarmuka pengguna grafis menggunakan Tkinter untuk berinteraksi dengan `TaskManager`.
-*   **Tugas (dalam `main.py`):**
+*   **Tugas (dalam `app.py`):**
     *   Impor `tkinter` dan `messagebox`, serta `TaskManager`.
     *   Buat kelas `TodoApp` yang mengelola GUI.
     *   Dalam `__init__` `TodoApp`:
