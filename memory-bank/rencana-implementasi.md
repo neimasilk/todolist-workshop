@@ -1,99 +1,92 @@
-# Rencana Implementasi Awal: MVP Aplikasi To-Do List (CLI)
+# Rencana Implementasi: Aplikasi To-Do List GUI
 
-Dokumen ini menguraikan rencana implementasi untuk *Minimum Viable Product* (MVP) dari Aplikasi To-Do List versi CLI, sebagaimana didefinisikan dalam `proposal.md` dan `dokumen-desain-produk.md`.
+Dokumen ini menguraikan rencana implementasi untuk Aplikasi To-Do List versi GUI dengan penyimpanan data persisten, sebagaimana didefinisikan dalam `dokumen-desain-produk.md`.
 
-## Tujuan MVP
+## Tujuan
 
-Menghasilkan aplikasi CLI fungsional yang memungkinkan pengguna untuk:
+Menghasilkan aplikasi GUI fungsional yang memungkinkan pengguna untuk:
 1.  Menambah tugas baru.
-2.  Melihat semua tugas yang ada.
-3.  Keluar dari aplikasi.
+2.  Melihat semua tugas yang ada (dengan status selesai/belum selesai).
+3.  Menandai tugas sebagai selesai.
+4.  Menghapus tugas.
+5.  Menyimpan dan memuat tugas secara persisten dari file JSON.
 
-Data tugas hanya akan tersimpan dalam memori selama aplikasi berjalan.
+## Struktur Proyek
 
-## Struktur Proyek Awal (Saran)
-
-Meskipun MVP sangat sederhana, disarankan untuk memulai dengan struktur dasar yang dapat dikembangkan:
+Struktur proyek yang digunakan adalah sebagai berikut:
 
 ```
 todo_app/
-├── main.py           # Titik masuk utama aplikasi, logika CLI
+├── main.py           # Titik masuk utama aplikasi, logika GUI Tkinter
 └── core/
     ├── __init__.py
-    └── task_manager.py # Kelas/modul untuk mengelola tugas (tambah, lihat)
-memory-bank/
-├── proposal.md
-├── dokumen-desain-produk.md
-├── tumpukan-teknologi.md
-└── rencana-implementasi.md
-└── ... (file lainnya)
-README.md
+    └── task_manager.py # Kelas/modul untuk mengelola tugas (tambah, lihat, tandai selesai, hapus, muat, simpan)
+└── data/
+    └── tasks.json    # File JSON untuk penyimpanan data persisten
 ```
 
-Struktur ini bersifat saran dan dapat disesuaikan oleh AI Koding (Jules) berdasarkan `baby-step.md` yang lebih detail nantinya.
+## Langkah-Langkah Implementasi
 
-## Langkah-Langkah Implementasi MVP
+Berikut adalah pemecahan fitur menjadi langkah-langkah yang lebih kecil dan dapat dikelola. Setiap langkah memiliki kriteria keberhasilan yang jelas.
 
-Berikut adalah pemecahan fitur MVP menjadi langkah-langkah yang lebih kecil dan dapat dikelola. Setiap langkah harus memiliki kriteria keberhasilan yang jelas.
+### Langkah 1: Penyiapan Struktur Proyek dan File Data
 
-### Langkah 1: Setup Dasar Aplikasi dan Struktur Folder
-
-*   **Deskripsi:** Membuat struktur folder dasar dan file `main.py` sebagai titik masuk aplikasi.
+*   **Deskripsi:** Membuat struktur folder dasar dan file `tasks.json` untuk penyimpanan persisten.
 *   **Tugas:**
     *   Buat folder `todo_app/`.
-    *   Buat file `todo_app/main.py`.
     *   Buat folder `todo_app/core/`.
     *   Buat file `todo_app/core/__init__.py`.
-    *   Buat file `todo_app/core/task_manager.py`.
-    *   Implementasikan loop utama aplikasi di `main.py` yang dapat menerima input pengguna dan menampilkan menu sederhana.
+    *   Buat folder `todo_app/data/`.
+    *   Buat file `todo_app/data/tasks.json` dengan konten `[]` (array kosong JSON).
 *   **Kriteria Keberhasilan:**
-    *   Aplikasi dapat dijalankan (`python todo_app/main.py`).
-    *   Aplikasi menampilkan pesan selamat datang dan opsi menu (misalnya, "1. Tambah Tugas", "2. Lihat Tugas", "3. Keluar").
-    *   Aplikasi menunggu input pengguna.
-    *   Memilih opsi "Keluar" akan menghentikan aplikasi dengan benar.
+    *   Struktur folder dan file yang disebutkan di atas telah dibuat.
+    *   `tasks.json` ada dan berisi array JSON kosong.
 
-### Langkah 2: Implementasi Fungsionalitas "Tambah Tugas"
+### Langkah 2: Refaktor `TaskManager` untuk Fitur Lengkap dan Persistensi
 
-*   **Deskripsi:** Mengembangkan logika untuk menambahkan tugas baru ke dalam memori.
-*   **Tugas (dalam `task_manager.py` dan dipanggil dari `main.py`):**
-    *   Buat fungsi atau metode dalam `task_manager.py` untuk menyimpan tugas (misalnya, dalam sebuah list).
-    *   Di `main.py`, saat pengguna memilih opsi "Tambah Tugas":
-        *   Minta pengguna memasukkan deskripsi tugas.
-        *   Panggil fungsi dari `task_manager.py` untuk menyimpan tugas tersebut.
-        *   Tampilkan pesan konfirmasi.
+*   **Deskripsi:** Memperbarui kelas `TaskManager` untuk mengelola tugas sebagai objek (dengan ID, deskripsi, dan status selesai) serta menambahkan fungsionalitas muat/simpan data.
+*   **Tugas (dalam `task_manager.py`):**
+    *   Impor modul `json` dan `os`.
+    *   Inisialisasi `self.file_path` ke `todo_app/data/tasks.json`.
+    *   Implementasikan `load_tasks()` untuk membaca tugas dari `tasks.json`.
+    *   Implementasikan `save_tasks()` untuk menulis tugas ke `tasks.json`.
+    *   Modifikasi `__init__` untuk memuat tugas saat inisialisasi dan menetapkan `next_id`.
+    *   Modifikasi `add_task` untuk membuat objek tugas dengan ID unik dan status `completed: False`, lalu menyimpannya.
+    *   Implementasikan `mark_task_complete(task_id)` untuk mengubah status `completed` tugas.
+    *   Implementasikan `delete_task(task_id)` untuk menghapus tugas berdasarkan ID.
 *   **Kriteria Keberhasilan:**
-    *   Pengguna dapat memasukkan deskripsi tugas.
-    *   Tugas disimpan dalam struktur data internal (misalnya, list dalam `TaskManager`).
-    *   Pesan konfirmasi "Tugas '[deskripsi]' telah ditambahkan." ditampilkan.
+    *   `TaskManager` dapat memuat dan menyimpan tugas ke/dari `tasks.json`.
+    *   `add_task` membuat tugas dengan ID dan status yang benar.
+    *   `mark_task_complete` dan `delete_task` berfungsi dengan benar dan memperbarui file JSON.
 
-### Langkah 3: Implementasi Fungsionalitas "Lihat Tugas"
+### Langkah 3: Mengembangkan Antarmuka GUI dengan Tkinter di `main.py`
 
-*   **Deskripsi:** Mengembangkan logika untuk menampilkan semua tugas yang tersimpan.
-*   **Tugas (dalam `task_manager.py` dan dipanggil dari `main.py`):**
-    *   Buat fungsi atau metode dalam `task_manager.py` untuk mengambil semua tugas yang tersimpan.
-    *   Di `main.py`, saat pengguna memilih opsi "Lihat Tugas":
-        *   Panggil fungsi dari `task_manager.py` untuk mendapatkan daftar tugas.
-        *   Tampilkan tugas-tugas tersebut dalam format yang jelas (misalnya, dengan nomor urut).
-        *   Jika tidak ada tugas, tampilkan pesan "Tidak ada tugas saat ini."
-*   **Kriteria Keberhasilan:**
-    *   Semua tugas yang telah ditambahkan ditampilkan dengan benar.
-    *   Jika belum ada tugas, pesan yang sesuai akan ditampilkan.
-    *   Format tampilan jelas dan mudah dibaca.
-
-### Langkah 4: Penanganan Input Tidak Valid
-
-*   **Deskripsi:** Memastikan aplikasi memberikan respons yang sesuai jika pengguna memasukkan opsi menu yang tidak valid.
+*   **Deskripsi:** Membuat antarmuka pengguna grafis menggunakan Tkinter untuk berinteraksi dengan `TaskManager`.
 *   **Tugas (dalam `main.py`):**
-    *   Jika pengguna memasukkan input yang tidak sesuai dengan opsi menu yang tersedia (misalnya, bukan "1", "2", atau "3"), tampilkan pesan error.
-    *   Tampilkan kembali daftar opsi menu yang valid.
+    *   Impor `tkinter` dan `messagebox`, serta `TaskManager`.
+    *   Buat kelas `TodoApp` yang mengelola GUI.
+    *   Dalam `__init__` `TodoApp`:
+        *   Inisialisasi jendela utama Tkinter (`master`).
+        *   Buat instance `TaskManager`.
+        *   Buat elemen GUI: `Entry` untuk input tugas, `Button` untuk tambah, `Listbox` untuk menampilkan tugas, `Scrollbar`, dan tombol "Tandai Selesai" serta "Hapus Tugas".
+        *   Atur tata letak elemen menggunakan `pack()`.
+        *   Hubungkan tombol ke metode yang sesuai (`add_task`, `mark_task_complete`, `delete_task`).
+        *   Hubungkan event `<<ListboxSelect>>` untuk mengaktifkan/menonaktifkan tombol.
+    *   Implementasikan `refresh_tasks()` untuk memperbarui `Listbox` dengan tugas-tugas dari `TaskManager`, termasuk indikator status selesai.
+    *   Implementasikan `add_task()` untuk mengambil input, memanggil `task_manager.add_task()`, dan me-refresh GUI.
+    *   Implementasikan `mark_task_complete()` dan `delete_task()` untuk mendapatkan ID tugas yang dipilih, memanggil metode `TaskManager` yang sesuai, dan me-refresh GUI.
+    *   Implementasikan `on_task_select()` dan `update_buttons_state()` untuk mengelola status tombol berdasarkan pilihan di `Listbox`.
+    *   Buat fungsi `main()` untuk menjalankan aplikasi Tkinter.
 *   **Kriteria Keberhasilan:**
-    *   Aplikasi menampilkan pesan error yang informatif untuk input tidak valid.
-    *   Aplikasi tidak crash dan kembali menampilkan menu.
+    *   Aplikasi GUI terbuka dengan benar.
+    *   Elemen GUI ditampilkan dengan tata letak yang benar.
+    *   Pengguna dapat menambah tugas, melihatnya di daftar, menandainya selesai, dan menghapusnya melalui GUI.
+    *   Data tugas disimpan dan dimuat secara persisten.
 
-## Pengujian dan Validasi MVP
+## Pengujian dan Validasi
 
-*   Setiap langkah di atas akan diuji secara manual selama pengembangan awal.
-*   Pengujian akhir MVP akan melibatkan menjalankan semua fungsionalitas secara berurutan untuk memastikan integrasi bekerja dengan baik.
-*   Kriteria keberhasilan untuk MVP secara keseluruhan (seperti yang tercantum di `dokumen-desain-produk.md`) harus terpenuhi.
+*   Setiap fungsionalitas GUI akan diuji secara manual untuk memastikan interaksi yang benar.
+*   Pengujian persistensi data akan dilakukan dengan menutup dan membuka kembali aplikasi untuk memverifikasi bahwa tugas-tugas tersimpan.
+*   Kriteria keberhasilan yang tercantum di `dokumen-desain-produk.md` harus terpenuhi.
 
-Dokumen ini akan menjadi dasar untuk pembuatan `baby-step.md` yang lebih detail untuk setiap langkah implementasi oleh AI Perencana (Gemini).
+Dokumen ini akan menjadi dasar untuk pengembangan lebih lanjut.
