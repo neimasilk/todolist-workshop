@@ -1,72 +1,70 @@
-# Dokumen Desain Produk: Aplikasi To-Do List Sederhana (CLI)
+# Dokumen Desain Produk: Aplikasi To-Do List
 
 ## 1. Visi Produk
 
-Aplikasi To-Do List ini bertujuan untuk menyediakan alat manajemen tugas pribadi yang minimalis dan efisien, dimulai sebagai aplikasi *Command-Line Interface* (CLI). Pengembangan aplikasi ini akan mengikuti metodologi "Vibe Coding" sebagai studi kasus utama, dengan fokus pada iterasi yang jelas, dokumentasi yang kuat, dan kolaborasi manusia-AI yang efektif. Versi awal (MVP) akan menjadi fondasi untuk pengembangan fitur lebih lanjut, seperti persistensi data dan antarmuka grafis (GUI).
+Aplikasi To-Do List ini bertujuan untuk menyediakan alat manajemen tugas pribadi yang minimalis dan efisien, kini dengan antarmuka pengguna grafis (GUI) dan kemampuan penyimpanan data persisten. Pengembangan aplikasi ini akan mengikuti metodologi "Vibe Coding" sebagai studi kasus utama, dengan fokus pada iterasi yang jelas, dokumentasi yang kuat, dan kolaborasi manusia-AI yang efektif.
 
 ## 2. Target Pengguna
 
-*   **Pengguna Utama (MVP):** Pengembang (individu) yang sedang mempelajari atau menerapkan metodologi Vibe Coding. Aplikasi ini berfungsi sebagai artefak dan contoh nyata dari proses tersebut.
-*   **Pengguna Sekunder (Potensial di Masa Depan):** Individu yang membutuhkan aplikasi to-do list sederhana untuk penggunaan sehari-hari di lingkungan CLI.
+*   **Pengguna Utama:** Individu yang membutuhkan aplikasi to-do list sederhana untuk penggunaan sehari-hari.
+*   **Pengguna Sekunder:** Pengembang (individu) yang sedang mempelajari atau menerapkan metodologi Vibe Coding, di mana aplikasi ini berfungsi sebagai artefak dan contoh nyata dari proses tersebut.
 
-## 3. Fitur Utama (MVP - Fase 1)
+## 3. Fitur Utama
 
-Berdasarkan `proposal.md` (Fase 1: MVP - CLI Sederhana), fitur-fitur inti untuk versi pertama adalah:
+Berdasarkan pengembangan saat ini, fitur-fitur inti aplikasi adalah:
 
 1.  **Menambah Tugas Baru:**
-    *   Pengguna dapat memasukkan teks untuk tugas baru.
-    *   Tugas akan disimpan dalam memori aplikasi selama sesi berjalan.
+    *   Pengguna dapat memasukkan teks untuk tugas baru melalui antarmuka GUI.
+    *   Tugas akan disimpan secara persisten dalam file JSON.
 2.  **Melihat Semua Tugas yang Ada:**
-    *   Pengguna dapat meminta untuk menampilkan daftar semua tugas yang telah ditambahkan.
-    *   Tugas akan ditampilkan dalam format yang jelas, misalnya dengan nomor urut.
-3.  **Keluar dari Aplikasi:**
-    *   Pengguna dapat memilih opsi untuk menghentikan aplikasi.
+    *   Pengguna dapat melihat daftar semua tugas yang telah ditambahkan, ditampilkan dalam Listbox GUI.
+    *   Status tugas (selesai/belum selesai) akan ditampilkan dengan jelas.
+3.  **Menandai Tugas sebagai Selesai:**
+    *   Pengguna dapat memilih tugas dari daftar dan menandainya sebagai selesai melalui tombol GUI.
+    *   Status tugas akan diperbarui dan disimpan secara persisten.
+4.  **Menghapus Tugas:**
+    *   Pengguna dapat memilih tugas dari daftar dan menghapusnya melalui tombol GUI.
+    *   Tugas akan dihapus dari daftar dan penyimpanan persisten.
+5.  **Penyimpanan Data Persisten:**
+    *   Semua tugas disimpan dalam file JSON (`tasks.json`) sehingga data tidak hilang saat aplikasi ditutup dan dibuka kembali.
+6.  **Antarmuka Pengguna Grafis (GUI):**
+    *   Aplikasi menyediakan antarmuka grafis yang intuitif menggunakan Tkinter untuk interaksi pengguna.
 
-## 4. Alur Pengguna (User Flow) - MVP CLI
+## 4. Alur Pengguna (User Flow) - GUI
 
-Interaksi pengguna dengan aplikasi CLI akan mengikuti alur dasar berikut:
+Interaksi pengguna dengan aplikasi GUI akan mengikuti alur dasar berikut:
 
 1.  **Mulai Aplikasi:**
     *   Pengguna menjalankan skrip Python aplikasi.
-    *   Aplikasi menampilkan pesan selamat datang dan daftar perintah yang tersedia (misalnya, tambah, lihat, keluar).
+    *   Aplikasi GUI terbuka, memuat tugas-tugas yang ada dari penyimpanan persisten.
 
 2.  **Siklus Interaksi Utama:**
-    *   Aplikasi menunggu input perintah dari pengguna.
-    *   **Jika perintah "tambah":**
-        *   Aplikasi meminta pengguna untuk memasukkan deskripsi tugas.
-        *   Pengguna mengetikkan tugas dan menekan Enter.
-        *   Aplikasi mengkonfirmasi bahwa tugas telah ditambahkan (misalnya, "Tugas '[deskripsi]' telah ditambahkan.").
-    *   **Jika perintah "lihat":**
-        *   Aplikasi menampilkan semua tugas yang tersimpan. Jika tidak ada tugas, aplikasi menampilkan pesan yang sesuai (misalnya, "Tidak ada tugas saat ini.").
-        *   Contoh tampilan:
-            ```
-            Daftar Tugas:
-            1. Belajar Python
-            2. Membuat aplikasi to-do list
-            ```
-    *   **Jika perintah "keluar":**
-        *   Aplikasi menampilkan pesan perpisahan (misalnya, "Terima kasih telah menggunakan aplikasi To-Do List!").
-        *   Aplikasi berhenti.
-    *   **Jika perintah tidak valid:**
-        *   Aplikasi menampilkan pesan error dan daftar perintah yang valid.
+    *   **Menambah Tugas:**
+        *   Pengguna mengetik deskripsi tugas di kolom input dan mengklik tombol "Tambah Tugas".
+        *   Tugas baru muncul di daftar dan disimpan.
+    *   **Melihat Tugas:**
+        *   Daftar tugas diperbarui secara otomatis setelah setiap operasi.
+        *   Tugas yang selesai ditandai secara visual (misalnya, teks abu-abu).
+    *   **Menandai Tugas Selesai:**
+        *   Pengguna memilih tugas dari daftar dan mengklik tombol "Tandai Selesai".
+        *   Status tugas berubah dan tampilan diperbarui.
+    *   **Menghapus Tugas:**
+        *   Pengguna memilih tugas dari daftar dan mengklik tombol "Hapus Tugas".
+        *   Aplikasi meminta konfirmasi, lalu menghapus tugas jika dikonfirmasi.
 
 3.  **Akhir Aplikasi:**
-    *   Dicapai ketika pengguna memilih opsi "keluar".
+    *   Dicapai ketika pengguna menutup jendela GUI. Data tugas akan disimpan secara otomatis.
 
-## 5. Kriteria Keberhasilan MVP
+## 5. Kriteria Keberhasilan
 
-*   Semua fitur (tambah tugas, lihat tugas, keluar) berfungsi sesuai dengan deskripsi.
+*   Semua fitur (tambah tugas, lihat tugas, tandai selesai, hapus tugas, penyimpanan persisten, GUI) berfungsi sesuai dengan deskripsi.
 *   Aplikasi berjalan tanpa error fatal pada lingkungan Python standar.
-*   Kode sumber terdokumentasi dengan baik (sesuai standar Vibe Coding jika sudah ada panduan gaya).
-*   Dokumen ini (`dokumen-desain-produk.md`) dan dokumen perencanaan lainnya (`tumpukan-teknologi.md`, `rencana-implementasi.md`) telah dibuat dan disimpan di `memory-bank`.
+*   Kode sumber terdokumentasi dengan baik.
+*   Dokumen ini (`dokumen-desain-produk.md`) dan dokumen perencanaan lainnya telah diperbarui dan disimpan di `memory-bank`.
 
-## 6. Pertimbangan Masa Depan (Pasca-MVP)
+## 6. Pertimbangan Masa Depan
 
-Sesuai `proposal.md`, fitur-fitur berikut dipertimbangkan untuk fase selanjutnya:
-*   Menandai tugas sebagai selesai.
-*   Menghapus tugas.
-*   Penyimpanan data secara persisten (misalnya, dalam file JSON).
-*   Transisi ke antarmuka grafis (GUI).
 *   Fitur lanjutan seperti prioritas, tanggal jatuh tempo, dan pengeditan tugas.
+*   Peningkatan tampilan GUI atau transisi ke library GUI yang lebih modern (misalnya, CustomTkinter).
 
 Dokumen ini akan diperbarui seiring dengan evolusi produk.
